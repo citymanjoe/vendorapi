@@ -1,6 +1,8 @@
 package com.wemabank.vendorapi.controller;
 
 import com.wemabank.vendorapi.service.FintrakService;
+
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

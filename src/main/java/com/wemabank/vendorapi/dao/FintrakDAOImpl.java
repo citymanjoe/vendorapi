@@ -2,10 +2,12 @@ package com.wemabank.vendorapi.dao;
 
 import com.wemabank.vendorapi.mapper.CustomerLoanGuarantorMapper;
 import com.wemabank.vendorapi.mapper.CustomerLoanInterestMapper;
+import com.wemabank.vendorapi.mapper.VaultCashMapper;
 import com.wemabank.vendorapi.model.CustomerLoanGuarantor;
 import com.wemabank.vendorapi.model.CustomerLoanInterest;
 import com.wemabank.vendorapi.model.CustomerTransaction;
 import com.wemabank.vendorapi.model.Transaction;
+import com.wemabank.vendorapi.model.VaultCash;
 import com.wemabank.vendorapi.service.XMLService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,4 +89,25 @@ public class FintrakDAOImpl implements FintrakDAO {
             return null;
         }
     }
+
+	@Override
+	public VaultCash getVaultCash(String branch) {
+		VaultCash cash = new VaultCash();
+		StringBuilder query = new StringBuilder();
+        query.append("select  sum(clr_bal_amt) VaultBal, acct_crncy_code VaultCrncy from tbaadm.gam ");
+        query.append("where GL_SUB_HEAD_CODE in ('10000','10003','10015') ");
+        query.append("and bacid in ('1010000008','1010003001','1010000001','1010000001') ");
+        query.append("and sol_id = '999' and clr_bal_amt != 0 and acct_crncy_code in ('NGN','USD','EUR','GBP') ");
+        query.append("group by acct_crncy_code");
+        String sql = query.toString();
+        try {
+        	VaultCashMapper rowMapper = new VaultCashMapper();
+            Object[] params = new Object[] { branch };
+            cash = jdbcTemplate.queryForObject(sql, rowMapper, params);
+            return cash;
+        } catch (Exception ex) {
+            log.error("An error Occured: Cause: {} \r\n Message: {}", ex.getCause(), ex.getMessage());
+            return null;
+        }
+	}
 }

@@ -11,4 +11,6 @@ public interface FintrakService {
     ResponseEntity<?> getCustomerLoanInterestDetail(String accountNo, int monthNo);
 
     ResponseEntity<?> getCustomerLoanNotificationDetail(String loanNo);
+    
+    public ResponseEntity<?> getVaultAmount(String branch);
 }
