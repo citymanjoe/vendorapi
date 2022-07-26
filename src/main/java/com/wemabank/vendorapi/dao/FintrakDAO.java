@@ -1,9 +1,6 @@
 package com.wemabank.vendorapi.dao;
 
-import com.wemabank.vendorapi.model.CustomerLoanGuarantor;
-import com.wemabank.vendorapi.model.CustomerLoanInterest;
-import com.wemabank.vendorapi.model.Transaction;
-import com.wemabank.vendorapi.model.VaultCash;
+import com.wemabank.vendorapi.model.*;
 
 import java.util.Date;
 import java.util.List;
@@ -16,5 +13,10 @@ public interface FintrakDAO {
 
     List<CustomerLoanGuarantor> GetCustLoanNotifDetail(String loanNo);
     
-    public VaultCash getVaultCash(String branch);
+    VaultCash getVaultCash(String branch);
+
+    CRMFinancial getCRMSourceFund(String cifId);
+
+    void postCRMSourceFund(CRMFinancial crm);
+
 }

@@ -1,6 +1,7 @@
 package com.wemabank.vendorapi.service;
 
 import com.wemabank.vendorapi.dao.FintrakDAO;
+import com.wemabank.vendorapi.model.CRMFinancial;
 import com.wemabank.vendorapi.model.CustomerLoanGuarantor;
 import com.wemabank.vendorapi.model.VaultCash;
 import com.wemabank.vendorapi.util.ErrorResponse;
@@ -59,6 +60,28 @@ public class FintrakServiceImpl implements FintrakService {
 		try {
 			VaultCash cashAmt = finDAO.getVaultCash(branch);
 			SuccessResponse response = new SuccessResponse("VAULT DETAIL.", cashAmt);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ErrorResponse(e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> getSourceFund(String cifId) {
+		try {
+			CRMFinancial cashAmt = finDAO.getCRMSourceFund(cifId);
+			SuccessResponse response = new SuccessResponse("CRM DETAIL.", cashAmt);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ErrorResponse(e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> postSourceFund(CRMFinancial crm) {
+		try {
+			finDAO.postCRMSourceFund(crm);
+			SuccessResponse response = new SuccessResponse("CRM RECORDS UPDATED SUCCESSFUL.");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ErrorResponse(e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
